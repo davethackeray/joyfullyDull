@@ -1,0 +1,12 @@
+# build & deps
+node_modules/
+dist/
+
+# env
+.env
+.env.*
+.wrangler/
+
+# editor
+.DS_Store
+*.swp

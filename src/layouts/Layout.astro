@@ -1,0 +1,114 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="A digital sanctuary for the constant purposeful struggle of being human." />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="theme-color" content="#f4ebd8" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		<title>{title}</title>
+	</head>
+	<body class="bg-sourdough text-earlgrey font-book antialiased min-h-screen flex flex-col items-center p-6 md:p-12">
+
+		<!-- ── "Take a Breath" Preloader ── -->
+		<div id="preloader" class="fixed inset-0 z-50 bg-sourdough flex items-center justify-center transition-opacity duration-700">
+			<p class="font-typewriter text-lg md:text-xl text-center max-w-md px-6 leading-relaxed opacity-0 animate-fade-in">
+				Take a deep breath.<br/>You are safe from the algorithm here.
+			</p>
+		</div>
+
+		<main class="max-w-3xl w-full">
+			<slot />
+		</main>
+
+		<footer class="mt-20 text-center text-sm font-typewriter opacity-70 pb-10 space-y-3">
+			<p>No algorithms. No hustle. Just human.</p>
+			<p>&copy; 2026 Joyfully Dull.</p>
+
+			<!-- ── Analog Toggle ── -->
+			<div class="flex items-center justify-center gap-3 mt-4">
+				<span class="text-xs">Analog Mode</span>
+				<button
+					id="analog-toggle"
+					aria-label="Toggle ambient Schwielowsee sounds"
+					class="relative w-12 h-6 bg-earlgrey/20 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-sunrise"
+				>
+					<span id="analog-knob" class="absolute top-0.5 left-0.5 w-5 h-5 bg-denim rounded-full transition-transform duration-300"></span>
+				</button>
+			</div>
+			<audio id="ambient-audio" loop preload="none">
+				<source src="/audio/schwielowsee.mp3" type="audio/mpeg" />
+			</audio>
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	/* Preloader fade-in text */
+	@keyframes fadeIn {
+		from { opacity: 0; transform: translateY(8px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+	.animate-fade-in {
+		animation: fadeIn 0.8s ease-out 0.3s forwards;
+	}
+
+	/* Smooth page reveal */
+	html {
+		scroll-behavior: smooth;
+	}
+
+	/* Subtle selection colors */
+	::selection {
+		background-color: #fcecb4;
+		color: #2b2b2b;
+	}
+</style>
+
+<script>
+	// ── Preloader: hold for 1.5s then fade out ──
+	document.addEventListener('DOMContentLoaded', () => {
+		const preloader = document.getElementById('preloader');
+		if (preloader) {
+			setTimeout(() => {
+				preloader.style.opacity = '0';
+				setTimeout(() => preloader.remove(), 700);
+			}, 1500);
+		}
+
+		// ── Analog Toggle ──
+		const toggle = document.getElementById('analog-toggle');
+		const knob = document.getElementById('analog-knob');
+		const audio = document.getElementById('ambient-audio') as HTMLAudioElement | null;
+		let isPlaying = false;
+
+		toggle?.addEventListener('click', () => {
+			isPlaying = !isPlaying;
+			if (knob) {
+				knob.style.transform = isPlaying ? 'translateX(1.5rem)' : 'translateX(0)';
+			}
+			if (toggle) {
+				toggle.style.backgroundColor = isPlaying ? '#6b8caf' : '';
+			}
+			if (audio) {
+				if (isPlaying) {
+					audio.volume = 0.4;
+					audio.play().catch(() => {});
+				} else {
+					audio.pause();
+				}
+			}
+		});
+	});
+</script>

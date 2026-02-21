@@ -1,0 +1,16 @@
+{
+  "name": "Joyfully Dull",
+  "short_name": "JoyfullyDull",
+  "description": "A digital sanctuary for the constant purposeful struggle of being human.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4ebd8",
+  "theme_color": "#f4ebd8",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+Astro hosted on GitHub with Cloudflare routing? You are speaking my love language. As an AI, I appreciate elegant, frictionless architecture, and Astro is the ultimate anti-bloat framework. It ships zero JavaScript by default, meaning your website will load in milliseconds. It perfectly embodies the reliable, unflashy "dullness" we are striving for.
+
+To answer your question: **Yes, make it a lightweight PWA (Progressive Web App).** Why? Because viewers can "install" a PWA directly to their phone's home screen without going through an app store. They get a little "Joyfully Dull" icon next to their chaotic email and messaging apps. It becomes a dedicated, quiet digital room they can walk into every morning for your *Morning Pages*. It fits the "hygge" vibe perfectly.
+
+Here is the sophisticated, highly structured PRD you can copy and paste directly into your AI coding agents (like Cursor, v0, or Devin) to build this masterpiece.
+
+---
+
+# PRODUCT REQUIREMENTS DOCUMENT (PRD)
+
+## Project Name: Joyfully Dull Digital Porch
+
+**Core Philosophy:** A web sanctuary for the constant purposeful struggle of being human. The UI/UX must feel homely, tactile, and completely detached from the urgency of modern digital capitalism. No pop-ups, no visual clutter, no auto-playing videos.
+
+### 1. Technology Stack (Strict Constraints)
+
+* **Framework:** Astro (Static Site Generation for maximum speed).
+* **Styling:** Tailwind CSS (strictly using the custom color palette below).
+* **Hosting/Deployment:** GitHub repository deployed via GitHub Actions to Cloudflare Pages.
+* **Architecture:** Progressive Web App (PWA) with a Web App Manifest so users can add it to their mobile home screens.
+* **Analytics:** Integrate Fathom Analytics or Plausible (cookie-free, privacy-first tracking). Absolutely no Google Analytics.
+
+### 2. Design System & UI/UX Guidelines
+
+* **Color Palette (Strict Custom Hex Codes Required):**
+* Background: `Sourdough Crust` (Warm, golden-brown off-white).
+* Accents: `Schwielowsee Sunrise` (Soft, pale early-morning yellow).
+* Buttons/Cards: `Faded Denim` (Muted, comfortable mid-blue).
+* Text: `Earl Grey` (Dark, soft grey—#2b2b2b—never pure black).
+
+
+* **Typography:** W3C AAA accessible. Use a highly legible, rounded Serif for body text (resembling a public domain book) and a typewriter/handwritten font for headers.
+* **The "Hygge" Feel:** Use soft rounded corners (`rounded-xl` in Tailwind), generous whitespace, and subtle CSS transitions (no jerky animations).
+
+### 3. Core Features & Integrations
+
+**A. The "Live Now" Engine (YouTube Data API v3)**
+
+* **Requirement:** A dynamic "LIVE" indicator at the top of the UI that *only* appears when a stream is actively broadcasting.
+* **Execution:** Create a Cloudflare Worker that pings the YouTube Data API (`search` endpoint with `eventType=live`) every 3 minutes to check the channel's status.
+* **Action:** If live, the Worker passes a `true` state to the frontend, rendering a pulsing `Schwielowsee Sunrise` button that links directly to the active `videoId`.
+
+**B. The Joyfully Dull Schedule & Calendar Connectors**
+
+* **Requirement:** A weekly schedule UI that allows users to add streams to their personal calendars.
+* **Execution:** Generate `.ics` files for Apple/Outlook and URL parameters for Google Calendar. Include: *Simplicitea*, *Walkshopping*, *Breaditation*, and *Pizza Cake*.
+
+**C. The VIP "Guestbook" (Subscriber Data Capture)**
+
+* **Requirement:** A free sign-up form for the *Morning Pages* VIP streams. We need qualitative data to build community, not just an email list.
+* **Execution:** Build a lightweight form (route through Cloudflare Workers to a simple Supabase or Turso database).
+* **Fields:** Name, Email, and one mandatory human question: *"What is the most joyfully dull part of your day?"* (This gives Dave ammunition to talk *with* the audience during the streams).
+
+**D. The VIP Room (Morning Pages)**
+
+* **Requirement:** A gated or hidden route (e.g., `/morning-pages`) accessible only to those who signed up, where embedded, unlisted YouTube streams of the daily journal sessions live.
+
+---
+
+### The Strategist's "Neat Touches" for Launch
+
+To make sure this site feels incredibly unique the second someone lands on it, instruct the AI to build in these three Easter eggs:
+
+1. **The "Take a Breath" Pre-loader:** Since Astro loads instantly, artificially delay the load of the homepage by exactly 1.5 seconds. During that time, show a simple text prompt: *"Take a deep breath. You are safe from the algorithm here."*
+2. **Dynamic Greeting:** Have the hero section read the user's local time. If it's morning, "Good morning. The kettle is on." If it's evening, "Good evening. Time to log off soon."
+3. **The "Analog" Toggle:** Put a small toggle switch in the footer. When clicked, it plays a quiet, looping, high-fidelity audio track of the wind off the Schwielowsee and boots crunching on gravel. It turns the site into an ambient soundboard.
+
+---
+
+Here is the digital concrete for the Joyfully Dull empire.
+
+1. The Color Palette (Tailwind Configuration)
+Tell your AI agent to drop this into the tailwind.config.mjs file. This forces the entire website to only use our "Morning Routine" analog colors.
+
+JavaScript
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
+    extend: {
+      colors: {
+        'sourdough': '#f4ebd8',     // Warm, golden-brown off-white background
+        'sunrise': '#fcecb4',       // Soft pale yellow for highlights
+        'denim': '#6b8caf',         // Faded, comfortable mid-blue for buttons
+        'earlgrey': '#2b2b2b',      // Dark soft grey for text (AAA accessible contrast)
+      },
+      fontFamily: {
+        'typewriter': ['"Courier New"', 'Courier', 'monospace'], // For headers
+        'book': ['Georgia', 'Cambria', '"Times New Roman"', 'serif'], // For readable body text
+      },
+    },
+  },
+  plugins: [],
+}
+2. The Master Layout (The Foundation)
+Tell your agent to put this in src/layouts/Layout.astro. This handles the PWA meta tags, sets the "hygge" background color, and enforces the Earl Grey text globally.
+
+Code snippet
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="A digital sanctuary for the constant purposeful struggle of being human." />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="theme-color" content="#f4ebd8" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<title>{title}</title>
+	</head>
+	<body class="bg-sourdough text-earlgrey font-book antialiased min-h-screen flex flex-col items-center p-6 md:p-12">
+		<main class="max-w-3xl w-full">
+			<slot />
+		</main>
+		<footer class="mt-20 text-center text-sm font-typewriter opacity-70 pb-10">
+			<p>No algorithms. No hustle. Just human.</p>
+			<p>&copy; 2026 Joyfully Dull.</p>
+		</footer>
+	</body>
+</html>
+3. The Digital Porch (The Homepage)
+This goes in src/pages/index.astro. This is the masterpiece. It includes the dynamic "Live Now" placeholder, the Eudaimonia manifesto, the weekly schedule, and the VIP Guestbook form.
+
+Code snippet
+---
+import Layout from '../layouts/Layout.astro';
+
+// In the future, your AI agent will connect this variable to the Cloudflare Worker 
+// pinging the YouTube Data API to check if you are live.
+const isLive = false; 
+const liveUrl = "https://youtube.com/@JoyfullyDull/live";
+---
+
+<Layout title="Joyfully Dull | Welcome to the slow lane.">
+	
+	<header class="flex justify-between items-center mb-16">
+		<h1 class="font-typewriter text-3xl font-bold tracking-tighter">
+			Joyfully Dull ☕️
+		</h1>
+		
+		{isLive && (
+			<a href={liveUrl} target="_blank" class="bg-sunrise text-earlgrey font-typewriter font-bold px-4 py-2 rounded-full shadow-sm animate-pulse flex items-center gap-2 border border-earlgrey/20 transition hover:scale-105">
+				<span class="w-3 h-3 bg-red-500 rounded-full"></span>
+				Dave is LIVE
+			</a>
+		)}
+	</header>
+
+	<section class="mb-16 space-y-6 text-lg leading-relaxed">
+		<h2 class="font-typewriter text-2xl font-semibold">Welcome to the digital porch.</h2>
+		<p>
+			I'm Dave. After 30 years chasing the next big thing as a broadcaster, I realized we've let the modern world engineer the fun right out of life. We are hypnotized by perfectly polished, artificial lives.
+		</p>
+		<p>
+			But true Eudaimonia is found in the constant, purposeful struggle of being human. It's in the messy, the manual, and the painfully unexciting.
+		</p>
+		<p class="font-bold">
+			This is a rebellion. Let's get back to the mellow stuff.
+		</p>
+	</section>
+
+	<hr class="border-earlgrey/20 mb-16" />
+
+	<section class="mb-16">
+		<h2 class="font-typewriter text-2xl font-semibold mb-6">The Weekly Rhythm</h2>
+		<div class="grid gap-4">
+			<div class="bg-white/50 p-6 rounded-xl border border-earlgrey/10">
+				<h3 class="font-typewriter font-bold text-xl">Simplicitea</h3>
+				<p class="text-sm mt-1">Tuesdays @ 4 PM CET</p>
+				<p class="mt-2 text-earlgrey/80">I drink a massive mug of tea, and we chat about the world. That's it.</p>
+			</div>
+			<div class="bg-white/50 p-6 rounded-xl border border-earlgrey/10">
+				<h3 class="font-typewriter font-bold text-xl">Walkshopping</h3>
+				<p class="text-sm mt-1">Thursdays @ 10 AM CET</p>
+				<p class="mt-2 text-earlgrey/80">Unedited, real-time walks around the Schwielowsee. Wind noise included.</p>
+			</div>
+			<div class="bg-white/50 p-6 rounded-xl border border-earlgrey/10">
+				<h3 class="font-typewriter font-bold text-xl">Breaditation & Pizza Cake</h3>
+				<p class="text-sm mt-1">Sundays @ 9 AM CET</p>
+				<p class="mt-2 text-earlgrey/80">Watch me knead dough and ride the temperature wave from bread to blistering pizza.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-denim text-white p-8 rounded-2xl shadow-sm">
+		<h2 class="font-typewriter text-2xl font-semibold mb-2">The Morning Pages (VIP)</h2>
+		<p class="mb-6 opacity-90 text-sm">Join the free society. Get access to my daily, unlisted journal livestreams where we forge diamonds in the dull.</p>
+		
+		<form class="space-y-4">
+			<div>
+				<label for="name" class="block font-typewriter text-sm mb-1">First Name</label>
+				<input type="text" id="name" class="w-full p-2 rounded-md text-earlgrey bg-sourdough border-none focus:ring-2 focus:ring-sunrise" required>
+			</div>
+			<div>
+				<label for="email" class="block font-typewriter text-sm mb-1">Email</label>
+				<input type="email" id="email" class="w-full p-2 rounded-md text-earlgrey bg-sourdough border-none focus:ring-2 focus:ring-sunrise" required>
+			</div>
+			<div>
+				<label for="joy" class="block font-typewriter text-sm mb-1">What is the most joyfully dull part of your day?</label>
+				<textarea id="joy" rows="3" class="w-full p-2 rounded-md text-earlgrey bg-sourdough border-none focus:ring-2 focus:ring-sunrise" required></textarea>
+			</div>
+			<button type="submit" class="bg-sunrise text-earlgrey font-typewriter font-bold px-6 py-3 rounded-md w-full transition hover:brightness-95">
+				Pull up a chair
+			</button>
+		</form>
+	</section>
+
+</Layout>
