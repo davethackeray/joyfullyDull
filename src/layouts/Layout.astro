@@ -87,28 +87,64 @@ const { title } = Astro.props;
 			}, 1500);
 		}
 
-		// ── Analog Toggle ──
-		const toggle = document.getElementById('analog-toggle');
-		const knob = document.getElementById('analog-knob');
-		const audio = document.getElementById('ambient-audio') as HTMLAudioElement | null;
-		let isPlaying = false;
+		// ── Analog Toggle — Web Audio pink noise generator ──
+	const toggle = document.getElementById('analog-toggle');
+	const knob = document.getElementById('analog-knob');
+	let isPlaying = false;
+	let audioCtx: AudioContext | null = null;
+	let noiseSource: AudioBufferSourceNode | null = null;
+	let gainNode: GainNode | null = null;
 
-		toggle?.addEventListener('click', () => {
-			isPlaying = !isPlaying;
-			if (knob) {
-				knob.style.transform = isPlaying ? 'translateX(1.5rem)' : 'translateX(0)';
-			}
-			if (toggle) {
-				toggle.style.backgroundColor = isPlaying ? '#6b8caf' : '';
-			}
-			if (audio) {
-				if (isPlaying) {
-					audio.volume = 0.4;
-					audio.play().catch(() => {});
-				} else {
-					audio.pause();
-				}
-			}
-		});
+	function buildPinkNoise(ctx: AudioContext): AudioBuffer {
+		const bufferSize = 2 * ctx.sampleRate;
+		const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+		const data = buffer.getChannelData(0);
+		let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+		for (let i = 0; i < bufferSize; i++) {
+			const w = Math.random() * 2 - 1;
+			b0 = 0.99886 * b0 + w * 0.0555179;
+			b1 = 0.99332 * b1 + w * 0.0750759;
+			b2 = 0.96900 * b2 + w * 0.1538520;
+			b3 = 0.86650 * b3 + w * 0.3104856;
+			b4 = 0.55000 * b4 + w * 0.5329522;
+			b5 = -0.7616 * b5 - w * 0.0168980;
+			data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11;
+			b6 = w * 0.115926;
+		}
+		return buffer;
+	}
+
+	function startNoise() {
+		audioCtx = new AudioContext();
+		gainNode = audioCtx.createGain();
+		gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+		gainNode.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 1.5);
+		noiseSource = audioCtx.createBufferSource();
+		noiseSource.buffer = buildPinkNoise(audioCtx);
+		noiseSource.loop = true;
+		noiseSource.connect(gainNode);
+		gainNode.connect(audioCtx.destination);
+		noiseSource.start();
+	}
+
+	function stopNoise() {
+		if (gainNode && audioCtx) {
+			gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+		}
+		setTimeout(() => {
+			noiseSource?.stop();
+			audioCtx?.close();
+			noiseSource = null;
+			audioCtx = null;
+			gainNode = null;
+		}, 900);
+	}
+
+	toggle?.addEventListener('click', () => {
+		isPlaying = !isPlaying;
+		if (knob) knob.style.transform = isPlaying ? 'translateX(1.5rem)' : 'translateX(0)';
+		if (toggle) (toggle as HTMLElement).style.backgroundColor = isPlaying ? '#6b8caf' : '';
+		isPlaying ? startNoise() : stopNoise();
+	});
 	});
 </script>
