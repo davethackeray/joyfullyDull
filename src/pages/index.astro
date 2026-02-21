@@ -66,21 +66,33 @@ const liveUrl = "https://youtube.com/@JoyfullyDull/live";
 	<!-- ── The Weekly Rhythm ── -->
 	<section class="mb-16">
 		<h2 class="font-typewriter text-2xl font-semibold mb-6">The Weekly Rhythm</h2>
-		<div class="grid gap-4">
-			<div class="bg-white/50 p-6 rounded-xl border border-earlgrey/10 transition hover:shadow-md hover:border-denim/30">
-				<h3 class="font-typewriter font-bold text-xl">Simplicitea</h3>
-				<p class="text-sm mt-1">Tuesdays @ 4 PM CET</p>
-				<p class="mt-2 text-earlgrey/80">I drink a massive mug of tea, and we chat about the world. That's it.</p>
+
+		<div class="grid md:grid-cols-2 gap-6">
+			<div class="bg-white/40 rounded-2xl overflow-hidden border border-earlgrey/10 shadow-sm transition hover:shadow-md">
+				<img src="/_assets/walkie-talkie.png" alt="Looking down at muddy hiking boots" class="w-full h-48 object-cover opacity-90 hover:opacity-100 transition" />
+				<div class="p-6">
+					<h3 class="font-typewriter font-bold text-xl">Walkie Talkie</h3>
+					<p class="text-sm mt-1 font-semibold text-denim">Thursdays @ 10 AM CET</p>
+					<p class="mt-2 text-earlgrey/80">Unedited, real-time walks around the Schwielowsee. Wind noise included.</p>
+				</div>
 			</div>
-			<div class="bg-white/50 p-6 rounded-xl border border-earlgrey/10 transition hover:shadow-md hover:border-denim/30">
-				<h3 class="font-typewriter font-bold text-xl">Walkshopping</h3>
-				<p class="text-sm mt-1">Thursdays @ 10 AM CET</p>
-				<p class="mt-2 text-earlgrey/80">Unedited, real-time walks around the Schwielowsee. Wind noise included.</p>
+
+			<div class="bg-white/40 rounded-2xl overflow-hidden border border-earlgrey/10 shadow-sm transition hover:shadow-md">
+				<img src="/_assets/breaditation.png" alt="Flour dusting over hands kneading dough" class="w-full h-48 object-cover opacity-90 hover:opacity-100 transition" />
+				<div class="p-6">
+					<h3 class="font-typewriter font-bold text-xl">Breaditation & Pizza Cake</h3>
+					<p class="text-sm mt-1 font-semibold text-denim">Sundays @ 9 AM CET</p>
+					<p class="mt-2 text-earlgrey/80">Let's take a soothing journey through the development of gluten strands as I prepare dough for some delicious bread. I'll even share the recipe.</p>
+				</div>
 			</div>
-			<div class="bg-white/50 p-6 rounded-xl border border-earlgrey/10 transition hover:shadow-md hover:border-denim/30">
-				<h3 class="font-typewriter font-bold text-xl">Breaditation & Pizza Cake</h3>
-				<p class="text-sm mt-1">Sundays @ 9 AM CET</p>
-				<p class="mt-2 text-earlgrey/80">Watch me knead dough and ride the temperature wave from bread to blistering pizza.</p>
+
+			<div class="bg-white/40 rounded-2xl overflow-hidden border border-earlgrey/10 shadow-sm transition hover:shadow-md md:col-span-2">
+				<img src="/_assets/dave-book-club.png" alt="A public domain book under a warm reading lamp" class="w-full h-48 object-cover opacity-90 hover:opacity-100 transition" />
+				<div class="p-6">
+					<h3 class="font-typewriter font-bold text-xl">Dave's Book Club</h3>
+					<p class="text-sm mt-1 font-semibold text-denim">Random Cozy Evenings</p>
+					<p class="mt-2 text-earlgrey/80">Reading public domain classics until one of us falls asleep. Pure Hygge.</p>
+				</div>
 			</div>
 		</div>
 
@@ -92,36 +104,40 @@ const liveUrl = "https://youtube.com/@JoyfullyDull/live";
 	</section>
 
 	<!-- ── VIP Guestbook (Morning Pages) ── -->
-	<section id="vip-section" class="bg-denim text-white p-8 rounded-2xl shadow-sm">
-		<h2 class="font-typewriter text-2xl font-semibold mb-2">The Morning Pages (VIP)</h2>
-		<p class="mb-6 opacity-90 text-sm">Join the free society. Get access to my daily, unlisted journal livestreams where we forge diamonds in the dull.</p>
+	<section id="vip-section" class="bg-denim text-white rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row">
+		<img src="/_assets/morning-pages.png" alt="A pen resting on a journal with coffee in the background" class="w-full md:w-2/5 h-64 md:h-auto object-cover opacity-80 mix-blend-multiply" />
 
-		<form id="vip-form" class="space-y-4">
-			<div>
-				<label for="name" class="block font-typewriter text-sm mb-1">First Name</label>
-				<input type="text" id="name" name="name" class="w-full p-2 rounded-md text-earlgrey bg-sourdough border-none focus:ring-2 focus:ring-sunrise" required>
-			</div>
-			<div>
-				<label for="email" class="block font-typewriter text-sm mb-1">Email</label>
-				<input type="email" id="email" name="email" class="w-full p-2 rounded-md text-earlgrey bg-sourdough border-none focus:ring-2 focus:ring-sunrise" required>
-			</div>
-			<div>
-				<label for="joy" class="block font-typewriter text-sm mb-1">What is the most joyfully dull part of your day?</label>
-				<textarea id="joy" name="joy" rows="3" class="w-full p-2 rounded-md text-earlgrey bg-sourdough border-none focus:ring-2 focus:ring-sunrise" required></textarea>
-			</div>
-			<button type="submit" class="bg-sunrise text-earlgrey font-typewriter font-bold px-6 py-3 rounded-md w-full transition hover:brightness-95">
-				Pull up a chair
-			</button>
-		</form>
+		<div class="p-8 md:w-3/5">
+			<div class="inline-block bg-sunrise text-earlgrey text-xs font-bold px-3 py-1 rounded-full mb-4 font-typewriter">SUBSCRIBERS ONLY</div>
+			<h2 class="font-typewriter text-2xl font-semibold mb-2">Morning Pages (Write Time)</h2>
+			<p class="mb-6 opacity-90 text-sm">Join the free society. Get the private links to my unlisted journaling streams where we sort through the thoughts of the day.</p>
 
-		<!-- Success message (hidden by default) -->
-		<div id="vip-success" class="hidden text-center py-8">
-			<p class="font-typewriter text-xl font-bold mb-2">☕️ You're in.</p>
-			<p class="text-sm opacity-90">Welcome to the quiet corner. Check your email for the Morning Pages link.</p>
+			<form id="vip-form" class="space-y-4">
+				<div class="grid grid-cols-2 gap-4">
+					<div>
+						<input type="text" id="name" name="name" placeholder="First Name" class="w-full p-3 rounded-md text-earlgrey bg-sourdough/90 border-none focus:ring-2 focus:ring-sunrise placeholder-earlgrey/50" required>
+					</div>
+					<div>
+						<input type="email" id="email" name="email" placeholder="Email Address" class="w-full p-3 rounded-md text-earlgrey bg-sourdough/90 border-none focus:ring-2 focus:ring-sunrise placeholder-earlgrey/50" required>
+					</div>
+				</div>
+				<div>
+					<textarea id="joy" name="joy" rows="2" placeholder="What is the most joyfully dull part of your day?" class="w-full p-3 rounded-md text-earlgrey bg-sourdough/90 border-none focus:ring-2 focus:ring-sunrise placeholder-earlgrey/50" required></textarea>
+				</div>
+				<button type="submit" class="bg-sunrise text-earlgrey font-typewriter font-bold px-6 py-3 rounded-md w-full transition hover:scale-[1.02] shadow-sm">
+					Unlock the Morning Pages
+				</button>
+			</form>
+
+			<!-- Success message (hidden by default) -->
+			<div id="vip-success" class="hidden text-center py-8">
+				<p class="font-typewriter text-xl font-bold mb-2">☕️ You're in.</p>
+				<p class="text-sm opacity-90">Welcome to the quiet corner. Check your email for the Morning Pages link.</p>
+			</div>
+
+			<!-- Error message (hidden by default) -->
+			<p id="vip-error" class="hidden text-sunrise font-typewriter text-sm mt-3 text-center"></p>
 		</div>
-
-		<!-- Error message (hidden by default) -->
-		<p id="vip-error" class="hidden text-sunrise font-typewriter text-sm mt-3 text-center"></p>
 	</section>
 
 </Layout>
