@@ -2,6 +2,10 @@ name = "joyfully-dull-vip-signup"
 main = "index.js"
 compatibility_date = "2024-12-01"
 
-# Set these as secrets via:
-#   npx wrangler secret put SUPABASE_URL
-#   npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+# D1 database binding — no secrets needed, D1 is native to Cloudflare.
+# After running `npx wrangler d1 create joyfully-dull-vip`, paste the
+# database_id output below.
+[[d1_databases]]
+binding = "DB"
+database_name = "joyfully-dull-vip"
+database_id = "e972cb07-2d20-4fd6-8218-f232081550f9"

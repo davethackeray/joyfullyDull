@@ -115,8 +115,7 @@ const liveUrl = "https://youtube.com/@JoyfullyDull/live";
 		}
 
 		// ── "Live Now" check via Cloudflare Worker ──
-		// Replace this URL with your deployed Worker URL
-		const LIVE_CHECK_URL = '/api/live-status'; // proxied or direct Worker URL
+		const LIVE_CHECK_URL = 'https://joyfully-dull-live-status.dave-c-thackeray.workers.dev';
 		const liveBtn = document.getElementById('live-btn');
 
 		async function checkLiveStatus() {
@@ -141,8 +140,7 @@ const liveUrl = "https://youtube.com/@JoyfullyDull/live";
 		const form = document.getElementById('vip-form') as HTMLFormElement | null;
 		const successMsg = document.getElementById('vip-success');
 		const errorMsg = document.getElementById('vip-error');
-		// Replace this URL with your deployed VIP signup Worker URL
-		const VIP_SIGNUP_URL = '/api/vip-signup';
+		const VIP_SIGNUP_URL = 'https://joyfully-dull-vip-signup.dave-c-thackeray.workers.dev';
 
 		form?.addEventListener('submit', async (e) => {
 			e.preventDefault();
