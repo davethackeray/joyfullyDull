@@ -13,6 +13,8 @@ const { title } = Astro.props;
 		<meta name="description" content="A digital sanctuary for the constant purposeful struggle of being human." />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/images/app-icon.svg" />
+		<meta name="apple-mobile-web-app-title" content="Joyfully Dull" />
 		<meta name="theme-color" content="#f4ebd8" />
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -147,4 +149,52 @@ const { title } = Astro.props;
 		isPlaying ? startNoise() : stopNoise();
 	});
 	});
+</script>
+
+<!-- ── PWA: Install Banner + Service Worker ── -->
+<div id="pwa-banner" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-earlgrey text-sourdough font-typewriter text-sm rounded-2xl shadow-xl px-6 py-4 flex items-center gap-4 max-w-sm w-[90%]">
+	<span>☕️ Add to your home screen for the full cozy experience.</span>
+	<button id="pwa-install" class="shrink-0 bg-sunrise text-earlgrey font-bold px-4 py-2 rounded-lg text-xs hover:brightness-95 transition">Add</button>
+	<button id="pwa-dismiss" class="shrink-0 text-sourdough/50 hover:text-sourdough transition text-base leading-none" aria-label="Dismiss">&times;</button>
+</div>
+
+<script>
+	// Service Worker registration
+	if ('serviceWorker' in navigator) {
+		window.addEventListener('load', () => {
+			navigator.serviceWorker.register('/sw.js').catch(() => {});
+		});
+	}
+
+	// PWA Install Banner
+	let deferredPrompt: any;
+	const banner = document.getElementById('pwa-banner');
+	const installBtn = document.getElementById('pwa-install');
+	const dismissBtn = document.getElementById('pwa-dismiss');
+
+	window.addEventListener('beforeinstallprompt', (e: Event) => {
+		e.preventDefault();
+		deferredPrompt = e;
+		// Show banner after 3 seconds so it doesn't immediately interrupt
+		setTimeout(() => banner?.classList.replace('hidden', 'flex'), 3000);
+	});
+
+	installBtn?.addEventListener('click', async () => {
+		banner?.classList.replace('flex', 'hidden');
+		if (deferredPrompt) {
+			deferredPrompt.prompt();
+			await deferredPrompt.userChoice;
+			deferredPrompt = null;
+		}
+	});
+
+	dismissBtn?.addEventListener('click', () => {
+		banner?.classList.replace('flex', 'hidden');
+		sessionStorage.setItem('pwa-dismissed', '1');
+	});
+
+	// Don't show again if dismissed this session
+	if (sessionStorage.getItem('pwa-dismissed')) {
+		banner?.classList.add('hidden');
+	}
 </script>
