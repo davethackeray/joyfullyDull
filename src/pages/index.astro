@@ -176,8 +176,8 @@ const liveUrl = "https://youtube.com/@JoyfullyDull/live";
 				if (data.isLive && liveBtn) {
 					liveBtn.classList.remove('hidden');
 					liveBtn.classList.add('flex');
-					if (data.videoId) {
-						liveBtn.setAttribute('href', `https://www.youtube.com/watch?v=${data.videoId}`);
+					if (data.videoUrl) {
+						liveBtn.setAttribute('href', data.videoUrl);
 					}
 				}
 			} catch {
