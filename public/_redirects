@@ -1,0 +1,7 @@
+# Cloudflare Pages redirect rules
+# Format: /source  /destination  [status]
+
+# Google Calendar add-event redirects for show schedule
+/api/cal/walkie-google  https://www.google.com/calendar/render?action=TEMPLATE&text=Walkie+Talkie+%E2%80%93+Joyfully+Dull&dates=20260226T090000Z/20260226T100000Z&recur=RRULE:FREQ=WEEKLY;BYDAY=TH&details=Unedited%2C+real-time+walks+around+the+Schwielowsee.+Wind+noise+included.+Watch+live:+https://youtube.com/%40JoyfullyDull&location=https://youtube.com/%40JoyfullyDull  302
+
+/api/cal/bread-google  https://www.google.com/calendar/render?action=TEMPLATE&text=Breaditation+%26+Pizza+Cake+%E2%80%93+Joyfully+Dull&dates=20260222T080000Z/20260222T093000Z&recur=RRULE:FREQ=WEEKLY;BYDAY=SU&details=Watch+dough+become+bread+become+pizza.+Watch+live:+https://youtube.com/%40JoyfullyDull&location=https://youtube.com/%40JoyfullyDull  302

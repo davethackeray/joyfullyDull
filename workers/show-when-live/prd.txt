@@ -1,0 +1,83 @@
+1. The Cloudflare Worker Code (worker.js)
+Hand this directly to your AI coding agent (Cursor, v0, etc.) with the instruction to deploy it as a Cloudflare Worker.
+
+JavaScript
+export default {
+  async fetch(request, env, ctx) {
+    // 1. Setup CORS so your Astro website is allowed to talk to this Worker
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*", // You can restrict this to joyfullydull.com later
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Content-Type": "application/json"
+    };
+
+    // Handle preflight requests
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
+
+    // 2. The Bouncer (Caching)
+    const cacheUrl = new URL(request.url);
+    const cacheKey = new Request(cacheUrl.toString(), request);
+    const cache = caches.default;
+    let response = await cache.match(cacheKey);
+
+    if (!response) {
+      // 3. We don't have a fresh answer, so we gently ask YouTube
+      console.log("Fetching fresh data from YouTube API...");
+      
+      const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${env.YOUTUBE_CHANNEL_ID}&type=video&eventType=live&key=${env.YOUTUBE_API_KEY}`;
+      
+      try {
+        const ytReq = await fetch(ytUrl);
+        const ytData = await ytReq.json();
+
+        let isLive = false;
+        let videoUrl = "https://youtube.com/@JoyfullyDull"; // Default fallback
+
+        // If YouTube finds an active live stream, grab it
+        if (ytData.items && ytData.items.length > 0) {
+          isLive = true;
+          videoUrl = `https://www.youtube.com/watch?v=${ytData.items[0].id.videoId}`;
+        }
+
+        const responseData = JSON.stringify({ isLive, videoUrl });
+
+        // 4. Save the answer for 5 minutes (300 seconds) so we don't drain the quota
+        response = new Response(responseData, {
+          headers: {
+            ...corsHeaders,
+            "Cache-Control": "s-maxage=300",
+          }
+        });
+
+        // Store it in the cache in the background
+        ctx.waitUntil(cache.put(cacheKey, response.clone()));
+
+      } catch (error) {
+        // If YouTube crashes, fail gracefully. It's joyfully dull, not life or death.
+        return new Response(JSON.stringify({ isLive: false, videoUrl: "https://youtube.com/@JoyfullyDull", error: "Failed to fetch" }), { headers: corsHeaders });
+      }
+    }
+
+    return response;
+  },
+};
+2. The Worker Configuration (wrangler.toml)
+Your AI agent will need this file to configure the Cloudflare environment variables securely.
+
+Ini, TOML
+name = "joyfully-dull-live-check"
+main = "worker.js"
+compatibility_date = "2026-02-21"
+
+# You will add these securely via the Cloudflare Dashboard later!
+# [vars]
+# YOUTUBE_API_KEY = "your-api-key"
+# YOUTUBE_CHANNEL_ID = "your-channel-id"
+3. Wiring It Into Your Astro Website
+Now that the bouncer is set up, tell your AI agent to update your index.astro header to fetch the data from this Worker when the page loads.
+
+Give your agent this prompt:
+
+"I have deployed a Cloudflare Worker that returns a JSON object: { isLive: boolean, videoUrl: string }. Update the index.astro header so that it runs a client-side fetch() to my Worker URL when the page mounts. If isLive is true, dynamically un-hide the pulsing 'Dave is LIVE' button and set its href to the videoUrl."
