@@ -26,18 +26,39 @@ const liveUrl = "https://youtube.com/@JoyfullyDull/live";
 		</a>
 	</header>
 
-	<!-- ── Dynamic Greeting ── -->
+	<!-- ── Manifesto ── -->
 	<section class="mb-16 space-y-6 text-lg leading-relaxed">
-		<h2 id="greeting" class="font-typewriter text-2xl font-semibold">Welcome to the digital porch.</h2>
-		<p>
-			I'm Dave. After 30 years chasing the next big thing as a broadcaster, I realized we've let the modern world engineer the fun right out of life. We are hypnotized by perfectly polished, artificial lives.
-		</p>
-		<p>
-			But true Eudaimonia is found in the constant, purposeful struggle of being human. It's in the messy, the manual, and the painfully unexciting.
-		</p>
-		<p class="font-bold">
-			This is a rebellion. Let's get back to the mellow stuff.
-		</p>
+		<h2 class="font-typewriter text-3xl font-bold mb-8">Welcome home.</h2>
+
+		<div class="bg-white/40 p-8 rounded-2xl border border-earlgrey/10 shadow-sm space-y-6">
+			<p>
+				If you loved <span class="italic font-semibold">Mortimer & Whitehouse: Gone Fishing</span>, and you adored <span class="italic font-semibold">Great Canal Journeys</span>, and one of your great goals in life is to spend two hours lost in a book without reaching for your phone—welcome home.
+			</p>
+
+			<p>
+				<span class="font-bold">Joyfully Dull</span> is where we revel in the magic of the tiniest things. We don't aspire to build skyscrapers. We don't want to name our first kid Instagram because that's all we can think about.
+			</p>
+
+			<p>
+				We long to rediscover the art of being happily human. <br>
+				Of enjoying every moment. <br>
+				Of simply being.
+			</p>
+
+			<ul class="font-typewriter text-earlgrey/90 space-y-2 py-4 pl-4 border-l-2 border-denim/30">
+				<li>☕️ Celebrating a sunrise.</li>
+				<li>🍞 Toasting a well-baked loaf.</li>
+				<li>🥾 Rejoicing in a walk on a crisp spring morning.</li>
+			</ul>
+
+			<p class="font-bold text-xl pt-2">
+				The simple things. The good life.
+			</p>
+
+			<p>
+				Join us as we raise a glass to being Joyfully Dull.
+			</p>
+		</div>
 	</section>
 
 	<hr class="border-earlgrey/20 mb-16" />
@@ -106,20 +127,8 @@ const liveUrl = "https://youtube.com/@JoyfullyDull/live";
 </Layout>
 
 <script>
-	// ── Dynamic Greeting based on local time ──
-	document.addEventListener('DOMContentLoaded', () => {
-		const greeting = document.getElementById('greeting');
-		if (greeting) {
-			const hour = new Date().getHours();
-			if (hour >= 5 && hour < 12) {
-				greeting.textContent = 'Good morning. The kettle is on.';
-			} else if (hour >= 12 && hour < 17) {
-				greeting.textContent = 'Good afternoon. Pull up a chair.';
-			} else {
-				greeting.textContent = 'Good evening. Time to log off soon.';
-			}
-		}
 
+	document.addEventListener('DOMContentLoaded', () => {
 		// ── "Live Now" check via Cloudflare Worker ──
 		const LIVE_CHECK_URL = 'https://joyfully-dull-live-status.dave-c-thackeray.workers.dev';
 		const liveBtn = document.getElementById('live-btn');
